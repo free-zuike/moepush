@@ -121,15 +121,15 @@ export const insertChannelSchema = createInsertSchema(channels).extend({
   message: "Telegram 机器人必须提供 Bot Token",
   path: ["botToken"],
 }).refine((data) => {
-  if (data.type === CHANNEL_TYPES.RESEND) {
+  if (data.type === CHANNEL_TYPES.TELEGRAM) {
     return !!data.chatId
   }
   return true
 }, {
-  message: "RESEND 机器人必须提供 Chat ID",
+  message: "Telegram 机器人必须提供 Chat ID",
   path: ["chatId"],
 }).refine((data) => {
-  if (data.type === CHANNEL_TYPES.RESEND) {
+  if (data.type === CHANNEL_TYPES.TELEGRAM) {
     return !!data.botToken
   }
   return true
