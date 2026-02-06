@@ -134,16 +134,32 @@ export const insertChannelSchema = createInsertSchema(channels).extend({
   }
   return true
 }, {
-  message: "Resend 机器人必须提供 Bot Token",
+  message: "Telegram 机器人必须提供 Bot Token",
   path: ["botToken"],
 }).refine((data) => {
-  if (data.type === CHANNEL_TYPES.RESEND) {
+  if (data.type === CHANNEL_TYPES.TELEGRAM) {
     return !!data.chatId
   }
   return true
 }, {
-  message: "Resend 机器人必须提供 Chat ID",
+  message: "Telegram 机器人必须提供 Chat ID",
   path: ["chatId"],
+}).refine((data) => {
+  if (data.type === CHANNEL_TYPES.RESEND) {
+    return !!data.secret
+  }
+  return true
+}, {
+  message: "Resend 必须提供 API Key",
+  path: ["secret"],
+}).refine((data) => {
+  if (data.type === CHANNEL_TYPES.RESEND) {
+    return !!data.webhook
+  }
+  return true
+}, {
+  message: "Resend 必须提供发件人邮箱",
+  path: ["webhook"],
 })
 
 export const selectChannelSchema = createSelectSchema(channels)
