@@ -57,7 +57,7 @@ export const insertChannelSchema = createInsertSchema(channels).extend({
   message: "企业微信应用必须提供应用Secret",
   path: ["secret"],
 }).refine((data) => {
-  if (![CHANNEL_TYPES.WECOM_APP, CHANNEL_TYPES.TELEGRAM, CHANNEL_TYPES.FEISHU, CHANNEL_TYPES.BARK, CHANNEL_TYPES.WEBHOOK].includes(data.type as any)) {
+  if (![CHANNEL_TYPES.WECOM_APP, CHANNEL_TYPES.TELEGRAM, CHANNEL_TYPES.RESEND, CHANNEL_TYPES.FEISHU, CHANNEL_TYPES.BARK, CHANNEL_TYPES.WEBHOOK].includes(data.type as any)) {
     if (!data.webhook) return false
     try {
       new URL(data.webhook)
@@ -121,12 +121,28 @@ export const insertChannelSchema = createInsertSchema(channels).extend({
   message: "Telegram 机器人必须提供 Bot Token",
   path: ["botToken"],
 }).refine((data) => {
-  if (data.type === CHANNEL_TYPES.TELEGRAM) {
+  if (data.type === CHANNEL_TYPES.RESEND) {
     return !!data.chatId
   }
   return true
 }, {
-  message: "Telegram 机器人必须提供 Chat ID",
+  message: "RESEND 机器人必须提供 Chat ID",
+  path: ["chatId"],
+}).refine((data) => {
+  if (data.type === CHANNEL_TYPES.RESEND) {
+    return !!data.botToken
+  }
+  return true
+}, {
+  message: "Resend 机器人必须提供 Bot Token",
+  path: ["botToken"],
+}).refine((data) => {
+  if (data.type === CHANNEL_TYPES.RESEND) {
+    return !!data.chatId
+  }
+  return true
+}, {
+  message: "Resend 机器人必须提供 Chat ID",
   path: ["chatId"],
 })
 

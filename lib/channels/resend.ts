@@ -8,7 +8,7 @@ interface ResendMessage{
   disable_notification?: boolean
 }
 
-export class resendChannel extends BaseChannel {
+export class ResendChannel extends BaseChannel {
   readonly config: ChannelConfig = {
     type: "resend",
     label: "resend 机器人",
@@ -50,7 +50,7 @@ export class resendChannel extends BaseChannel {
   }
 
   async sendMessage(
-    message: resendMessage,
+    message: ResendMessage,
     options: SendMessageOptions
   ): Promise<Response> {
     const { botToken, chatId } = options
@@ -59,7 +59,7 @@ export class resendChannel extends BaseChannel {
       throw new Error("缺少 Bot Token 或 Chat ID")
     }
     
-    console.log('sendResendMessagemessage:', message)
+    console.log('ResendMessage:', message)
 
     const response = await fetch(
       `https://api.resend.org/bot${botToken}/sendMessage`,
