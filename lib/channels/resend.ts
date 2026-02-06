@@ -1,6 +1,6 @@
 import { BaseChannel, ChannelConfig, SendMessageOptions } from "./base"
 
-interface resendMessage {
+interface ResendMessage{
   chat_id: string
   text: string
   parse_mode?: "HTML" | "Markdown" | "MarkdownV2"
@@ -59,7 +59,7 @@ export class resendChannel extends BaseChannel {
       throw new Error("缺少 Bot Token 或 Chat ID")
     }
     
-    console.log('sendresendMessage message:', message)
+    console.log('sendResendMessagemessage:', message)
 
     const response = await fetch(
       `https://api.resend.org/bot${botToken}/sendMessage`,
